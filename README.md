@@ -1,14 +1,14 @@
-# Real Face
-Capture faces and then using different library to recognized these faces thought web cam, images, video.
+# Real Face Detection
+Capture faces and then using different library to recognized these faces thought web cam, images, video with Liveness Detection.
 
-Liveness Detection.
+The repository does not contain the dataset of images. You should capture yourself and train it for later recognization.
 
 #### Face detection algorithms using :
 + Haar Cascade Classifiers using OpenCV
 + Histogram of Oriented Gradients using Dlib
 + Convolutional Neural Networks using Dlib
 
-### Libraries using: 
+#### Libraries using: 
 + python 3.7
 + anaconda3
 + dlib
