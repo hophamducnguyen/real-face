@@ -1,37 +1,38 @@
 # Real Face
-Implementation of the GaussianFace algorithm for TU Delft IN4393 Computer Vision 2016/2017
+Capture faces and then using different library to recognized these faces thought web cam, images, video.
 
-The repository does not contain the dataset of images. The data can be places in colorferet/output/ and is expected to be normalized images from the gray FERET dataset of size 150x130pixels.
+Liveness Detection.
 
-The code used in the final system can be found in src/gaussianface.py and demos/
+#### Face detection algorithms using :
++ Haar Cascade Classifiers using OpenCV
++ Histogram of Oriented Gradients using Dlib
++ Convolutional Neural Networks using Dlib
 
-To run the system install and create a virtual environment with Python 2.7.
-Please note that creating the F matrix for a lot of images as required in training and testing takes a long time.
+### Libraries using: 
++ python 3.7
++ anaconda3
++ dlib
++ opencv
++ imutils
++ face_recognition
 
-To use precalculated F and W matrices (k=3). Unzip savedMatrix/savedMatrix.zip so that the npy files are in ./savedMatrix/
+#### Installation:
 
 ```sh
-pip install virtualenv
-virtualenv project
+pip install cmake
+conda install -c menpo dlib
+conda install -c akode face_recognition_models
+pip install face_recognition
+pip install imutils
 ```
-
-Activate and configure virtualenv
+#### Using:
+Capture pictures
 ```sh
-source project/bin/activate (Linux)
-pip install -r requirements.txt
+python face_capture.py -n <name>
 ```
+#### Reference:
+A full guide to face detection - Maël Fabien
+https://maelfabien.github.io/tutorials/face-detection/#
 
-To run training and testing: (Requires FERET normalized images and takes a long time or the precalculated F matrices)
-The normalized feret images should be placed in /colorferet/output in pgm format (examplename: 00001fa010_930831.pgm).
-Train the LDA transformation matrix
-```
-python -m demos.trainWLDA
-```
-Test on the testdata
-```
-python -m demos.testAlgorithm
-```
-Test the LBP faces
-```
-python -m demos.lbpfaces <imgpath>
-```
+Liveness Detection with OpenCV - Adrian Rosebrock
+https://www.pyimagesearch.com/2019/03/11/liveness-detection-with-opencv/
