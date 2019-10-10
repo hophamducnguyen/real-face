@@ -4,7 +4,8 @@ import argparse
 
 import face_recognition
 
-from face_config import image_dir, face_classifier, eye_classifier
+import face_detector
+from face_detector import image_dir, face_classifier, eye_classifier
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -25,6 +26,7 @@ cam.set(3, 640)  # set Width
 cam.set(4, 480)  # set Height
 
 img_counter = 0
+# face_recognition.face_distance()
 
 while True:
     # Capture frame-by-frame
@@ -32,8 +34,8 @@ while True:
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # faces = face_classifier.detectMultiScale(gray_frame, scaleFactor=1.5, minNeighbors=5, minSize=(20, 20))
-    faces = face_classifier.detectMultiScale(gray_frame)
+    faces = face_classifier.detectMultiScale(gray_frame, scaleFactor=1.5, minNeighbors=5, minSize=(20, 20))
+    # faces = face_classifier.detectMultiScale(gray_frame)
     # faces = face_recognition.face_locations(gray_frame)
     # print(faces)
     color_face = None

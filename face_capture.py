@@ -1,25 +1,29 @@
 # USAGE
 # use to capture face, hit <space> to capture, hit <esc> to exit
-# python face_capture.py -n <name>
-import os
-import cv2
-import argparse
+# python face_capture.py -n <name> -a <number>
+# if input number of auto, it will auto capture your face
 
+import argparse
+import os
+
+import cv2
 import face_recognition
 
-from face_config import image_dir, face_classifier, eye_classifier
-
 # construct the argument parse and parse the arguments
+from face_detector import capture_frame, image_dir
+
 ap = argparse.ArgumentParser()
 ap.add_argument("-n", "--name", type=str, required=True,
                 help="name of recorded person.")
+ap.add_argument("-a", "--auto", type=int, default=-1,
+                help="number of images which will auto capture.")
 
 args = vars(ap.parse_args())
-name = args["name"]
-
+user_name = args["name"]
+max_img_counter = args["auto"]
 
 # create images folder
-record_dir = image_dir + name + '/real/'
+record_dir = image_dir + user_name + '/real/'
 os.makedirs(record_dir, exist_ok=True)
 
 # open cam and capture images
@@ -40,26 +44,27 @@ while True:
     color_face = None
     for (top, right, bottom, left) in faces:
         color_face = frame[top + 1: bottom - 1, left + 1: right - 1]
-        color = (255, 0, 0)  # BGR 0-255
-        stroke = 0
-        cv2.rectangle(frame, (left, top), (right, bottom), color, stroke)
+        cv2.rectangle(frame, (left, top), (right, bottom), (255, 0, 0), 0)
+
+        # auto capture
+        if 0 <= img_counter <= max_img_counter:
+            # img_counter = capture_frame(color_face, record_dir, img_counter)
+            img_counter = capture_frame(color_face)
 
     cv2.imshow('frame', frame)
+
     if not ret:
         break
-    k = cv2.waitKey(1)
 
+    # wait for input key
+    k = cv2.waitKey(1)
     if k % 256 == 27:
         # ESC pressed
-        print("Escape hit, closing...")
+        print("Esc hit, exit program and cleanup.")
         break
-    # elif k % 256 == 32:
     elif k % 256 == 32 and color_face is not None:
         # SPACE pressed
-        img_name = record_dir + "{}.png".format(img_counter)
-        cv2.imwrite(img_name, color_face)
-        print("{} written!".format(img_name))
-        img_counter += 1
+        img_counter = capture_frame(color_face, record_dir, img_counter)
 
 cam.release()
 cv2.destroyAllWindows()
